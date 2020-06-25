@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>YB-BLOG</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Home Page{% endblock title%}
+{% block content %}
     {% for article in articles %}
         <p>{{ article.title }}</p>
     {% endfor %}
-</body>
-</html>
+{% endblock content %}
