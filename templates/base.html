@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
@@ -8,7 +8,7 @@
 <body>
     {% include 'header.html' %}
 
-    {% block content %}{% endblock %}
+    {% block content %}{% endblock content %}
 
     {% include 'footer.html' %}
 
