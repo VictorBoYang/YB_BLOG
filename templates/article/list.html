@@ -2,7 +2,22 @@
 {% load static %}
 {% block title%}Home Page{% endblock title%}
 {% block content %}
-    {% for article in articles %}
-        <p>{{ article.title }}</p>
-    {% endfor %}
+<div class="container">
+    <div>
+        {% for article in articles %}
+        <div class="col-4 mb-4">
+            <div class="card h-100">
+                <h4 class="card-header">{{ article.title }}</h4>
+                <h6 class="card-footer">publish time: {{ article.create_time}}</h6>
+                <div class="card-body">
+                    <p class="card-text">{{ article.body|slice:'100'}}...</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'Article:article_detail' article.id %}" class="btn btn-primary">Read Article</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
