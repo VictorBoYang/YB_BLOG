@@ -7,10 +7,25 @@
     <div class="container">
         <div class="row">
             <h1 class="col-12 mt-4 mb-4">{{article.title}}</h1>
-            <div class="col-12 alert alert-success">Author:{{article.author}}</div>
+            <div class="col-12 alert alert-success">
+                Author:{{article.author}}
+                <a href="#" onclick="delete_confirm()">Delete Article</a>
+            </div>
             <div class="col-12">
                 <p>{{article.body}}</p>
             </div>
         </div>
     </div>
+
+<script>
+    function delete_confirm() {
+        layer.open({
+            title:"Confirm Delete",
+            content:"Are you sure you want delete this Article?",
+            yes: function(index,layero) {
+              location.href="{% url 'Article:article_delete' article.id%}"
+            },
+        })
+    }
+</script>
 {% endblock content%}
