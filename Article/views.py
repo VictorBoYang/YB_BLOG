@@ -37,3 +37,21 @@ def article_delete(request,id):
     article = models.ArticlePost.objects.get(id=id)
     article.delete()
     return redirect('Article:article_list')
+
+
+def article_edit(request,id):
+    article = models.ArticlePost.objects.get(id=id)
+    if request.method == "POST":
+        article_post_form = forms.article_post_form(data=request.POST)
+        if article_post_form.is_valid():
+            article.title = request.POST['title']
+            article.body = request.POST['body']
+            article.save()
+            return redirect('Article:article_detail', id=id)
+        else:
+            return HttpResponse('the content of form is not valid. Please enter again')
+    else:
+        article_post_form = forms.article_post_form()
+        context = {'article':article,
+                   'article_post_form':article_post_form}
+        return render(request,'article/edit.html',context)
