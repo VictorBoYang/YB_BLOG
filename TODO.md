@@ -12,4 +12,10 @@ all(current:4) templates(base,footer,header,list)
 
 Finished basic personal Yb-Blog, user can 
 create,check,delete,edit articles
-Next step:Preparing for open blog, build User management system
+Next step:Preparing for open blog, 
+build User management system
+
+2020.Jun.28
+Finished basic User System(User Login,Sign up)
+Next step:add more detail for User profile(User information,profile image...).
+Let user can change password.
