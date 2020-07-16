@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse
 from . import forms
-
+from .models import *
+from django.contrib.auth.decorators import login_required
 
 def user_login(request):
     if request.method == 'POST':
@@ -47,3 +48,29 @@ def user_register(request):
         return render(request,'user/register.html',context)
     else:
         return HttpResponse('Please use GET or POST to request data')
+
+@login_required(login_url='/Users/login')
+def profile_edit(request,id):
+    user = User.objects.get(id=id)
+    if Profile.objects.filter(user_id=id).exists():
+        profile = Profile.objects.get(user_id=id)
+    else:
+        profile = Profile.objects.create(user=user)
+    if request.method == 'POST':
+        if request.user != user:
+            return HttpResponse('You are not allowed to edit this user')
+        profile_form = forms.profile_form(data=request.POST)
+        if profile_form.is_valid():
+            profile_cd = profile_form.cleaned_data
+            profile.phone = profile_cd['phone']
+            profile.description = profile_cd['description']
+            profile.save()
+            return redirect('Users:edit',id=id)
+        else:
+            return  HttpResponse('Form is not vaild. Please enter again')
+    elif request.method == 'GET':
+        profile_form = forms.profile_form()
+        context = {'profile_form':profile_form,'profile':profile,'user':user}
+        return render(request,'user/edit.html')
+    else:
+        return HttpResponse('Please use POST or GET request')

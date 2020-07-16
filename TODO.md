@@ -19,3 +19,6 @@ build User management system
 Finished basic User System(User Login,Sign up)
 Next step:add more detail for User profile(User information,profile image...).
 Let user can change password.
+
+Jul.16
+Finished User Profile. Rebuild User Object.
