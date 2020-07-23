@@ -2,6 +2,8 @@ from django import forms
 
 from django.contrib.auth.models import User
 from . import models
+
+
 class user_login_form(forms.Form):
     username = forms.CharField()
     password = forms.CharField()
@@ -13,7 +15,20 @@ class user_register_form(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username','email')
+        fields = ('username', 'email')
+
+    def check_password(self):
+        data = self.cleaned_data
+        if data.get('password') == data.get('password2'):
+            return data.get('password')
+        else:
+            raise ValueError('Please enter the same password. Please try again')
+
+
+class user_change_pwd_form(forms.Form):
+    old_password = forms.CharField()
+    password = forms.CharField()
+    password2 = forms.CharField()
 
     def check_password(self):
         data = self.cleaned_data
@@ -26,4 +41,4 @@ class user_register_form(forms.ModelForm):
 class profile_form(forms.ModelForm):
     class Meta:
         model = models.Profile
-        fields = ('phone','photo','description')
+        fields = ('phone', 'photo', 'description')

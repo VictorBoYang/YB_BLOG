@@ -8,12 +8,15 @@
     <div class="row">
         <div class="col-12">
             <br>
+            <!--article_post_form-->
             <form method="post" action=".">
                 {% csrf_token %}
+                <!--article title input-->
                 <div class="form-group">
                     <label for="title">Article Title</label>
                     <input type="text" class="form-control" id="title" name="title">
                 </div>
+                <!--article content input-->
                 <div class="form-group">
                     <label for="body">Article Content</label>
                     <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>

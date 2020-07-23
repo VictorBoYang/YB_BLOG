@@ -22,3 +22,6 @@ Let user can change password.
 
 Jul.16
 Finished User Profile. Rebuild User Object.
+
+Jul.23
+Finished User profile picture. need improve 'Change Password'

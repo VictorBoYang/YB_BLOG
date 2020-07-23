@@ -9,19 +9,33 @@
             <div class="col-md-4">
                 User:{{ user.username }}
             </div>
+            {% if profile.photo %}
+                    <div class="col-md-4">Profile Picture</div>
+                    <img src="{{ profile.photo.url }}" style="max-width:20%; border-radius: 15%;" class="col-md-4">
+                {% else %}
+                    <h5 class="col-md-4">Have no profile picture</h5>
+                {% endif %}
             <br>
-            <form method="post" action=".">
+            <br>
+            <form method="post" action="." enctype="multipart/form-data">
                 {% csrf_token %}
+                <div class="form-group">
+                    <label for="photo">Upload profile picture</label>
+                    <input type="file" class="form-control-file" name="photo" id="photo">
+                </div>
+                <!--PHONE-->
                 <div class="form-group col-md-4">
                     <label for="phone">Phone</label>
                     <input type="text" class="form-control" id="phone" name="phone" value="{{ profile.phone }}">
                 </div>
+                <!--description-->
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea type="text" class="form-control" id="description" name="description" rows="12">
                         {{ profile.description }}
                     </textarea>
                 </div>
+                <!--Submit-->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

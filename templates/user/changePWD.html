@@ -1,24 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 {% load static %}
-{% block title %}Sign Up{% endblock title %}
-
+{% block title %}Change Password{% endblock title%}
+<!--this site can let user edit the article-->
 {% block content %}
-<div class="container">
+    <div class="container">
     <div class="row">
         <div class="col-12">
             <br>
-<!--register_form, here is for user to sign up and input their basic info-->
+            <div class="col-md-4">
+                User:{{ user.username }}
+            </div>
             <form method="post" action=".">
                 {% csrf_token %}
-                <!--username input-->
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username">
-                </div>
-                <!--email input-->
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <label for="old_password">Old Password</label>
+                    <input type="password" class="form-control" id="old_password" name="old_password">
                 </div>
                 <!--password input-->
                 <div class="form-group">
@@ -30,6 +26,7 @@
                     <label for="password2">Confirm Password</label>
                     <input type="password" class="form-control" id="password2" name="password2">
                 </div>
+                <!--Submit-->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

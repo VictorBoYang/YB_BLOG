@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block title %}Edit Article{% endblock title%}
+<!--this site can let user edit the article-->
 {% block content %}
 <div class="container">
     <div class="row">
@@ -14,7 +15,9 @@
                 </div>
                 <div class="form-group">
                     <label for="body">Article Content</label>
-                    <textarea type="text" class="form-control" id="body" name="body" rows="12">{{ article.body }}</textarea>
+                    <textarea type="text" class="form-control" id="body" name="body" rows="12">
+                        {{ article.body }}
+                    </textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

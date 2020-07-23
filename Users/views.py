@@ -50,6 +50,30 @@ def user_register(request):
         return HttpResponse('Please use GET or POST to request data')
 
 @login_required(login_url='/Users/login')
+def user_change_pwd(request,id):
+    user = User.objects.get(id=id)
+    if request.method == 'POST':
+        if request.user !=user:
+            return HttpResponse('You are not allowed to edit this user')
+        user_change_pwd_form = forms.user_change_pwd_form(data=request.POST)
+        if user_change_pwd_form.is_valid():
+            if user_change_pwd_form.cleaned_data['old_password'] == user.password:
+                user.set_password(user_change_pwd_form.cleaned_data['password'])
+                user.save()
+                return redirect('Article:article_list')
+            else:
+                HttpResponse('Please input the correct old password.')
+        else:
+            return HttpResponse('Password change form wrong. Please try again.')
+    elif request.method == 'GET':
+        user_change_pwd_form = forms.user_change_pwd_form()
+        context = {'form':user_change_pwd_form}
+        return  render(request,'user/changePWD.html',context)
+    else:
+        return HttpResponse('Please use GET or POST to request data')
+
+
+@login_required(login_url='/Users/login')
 def profile_edit(request,id):
     user = User.objects.get(id=id)
     if Profile.objects.filter(user_id=id).exists():
@@ -59,11 +83,12 @@ def profile_edit(request,id):
     if request.method == 'POST':
         if request.user != user:
             return HttpResponse('You are not allowed to edit this user')
-        profile_form = forms.profile_form(data=request.POST)
+        profile_form = forms.profile_form(request.POST,request.FILES)
         if profile_form.is_valid():
-            profile_cd = profile_form.cleaned_data
-            profile.phone = profile_cd['phone']
-            profile.description = profile_cd['description']
+            profile.phone = profile_form.cleaned_data['phone']
+            profile.description = profile_form.cleaned_data['description']
+            if 'photo' in request.FILES:
+                profile.photo = profile_form.cleaned_data['photo']
             profile.save()
             return redirect('Users:edit',id=id)
         else:
@@ -71,6 +96,6 @@ def profile_edit(request,id):
     elif request.method == 'GET':
         profile_form = forms.profile_form()
         context = {'profile_form':profile_form,'profile':profile,'user':user}
-        return render(request,'user/edit.html')
+        return render(request,'user/edit.html',context)
     else:
         return HttpResponse('Please use POST or GET request')

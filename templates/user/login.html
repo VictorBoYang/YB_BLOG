@@ -9,10 +9,12 @@
             <br>
             <form method="post" action=".">
                 {% csrf_token %}
+                <!--username input-->
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username">
                 </div>
+                <!--password input-->
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
@@ -20,6 +22,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+<!--if user doesn't have any account, here can sign up-->
         <div class="col-12">
             <br>
             <h5>Haven't owned any account yet? <a href="{% url 'Users:register' %}">click here</a>for Sign Up</h5>
