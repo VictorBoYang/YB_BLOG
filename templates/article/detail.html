@@ -8,7 +8,10 @@
         <div class="row">
             <h1 class="col-12 mt-4 mb-4">{{article.title}}</h1>
             <div class="col-12 alert alert-success">
-                Author:{{article.author}}
+
+                Author:<img src="{{ article.author.profile.photo.url }}"
+                            style="max-width:8%; border-radius: 15%;" class="col-md-4">
+                {{article.author}}
                 <a href="#" onclick="delete_confirm()">Delete Article</a>
                 <a href="{% url 'Article:article_edit' article.id %}">Edit Article</a>
             </div>

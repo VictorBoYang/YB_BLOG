@@ -4,9 +4,19 @@ from . import models
 from django.contrib.auth.models import User
 from . import forms
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 
 def article_list(request):
-    articles = models.ArticlePost.objects.all()
+    article_list = models.ArticlePost.objects.all()
+
+    # every page will show 6 articles
+    paginator = Paginator(article_list,2)
+
+    page = request.GET.get('page')
+
+    articles = paginator.get_page(page)
+
     context = {'articles':articles}
     return render(request,'article/list.html',context)
 
