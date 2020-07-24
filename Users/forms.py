@@ -25,19 +25,6 @@ class user_register_form(forms.ModelForm):
             raise ValueError('Please enter the same password. Please try again')
 
 
-class user_change_pwd_form(forms.Form):
-    old_password = forms.CharField()
-    password = forms.CharField()
-    password2 = forms.CharField()
-
-    def check_password(self):
-        data = self.cleaned_data
-        if data.get('password') == data.get('password2'):
-            return data.get('password')
-        else:
-            raise ValueError('Please enter the same password. Please try again')
-
-
 class profile_form(forms.ModelForm):
     class Meta:
         model = models.Profile

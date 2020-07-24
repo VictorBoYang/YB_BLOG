@@ -12,8 +12,13 @@
                 Author:<img src="{{ article.author.profile.photo.url }}"
                             style="max-width:8%; border-radius: 15%;" class="col-md-4">
                 {{article.author}}
+                {% if user == article.author %}
                 <a href="#" onclick="delete_confirm()">Delete Article</a>
                 <a href="{% url 'Article:article_edit' article.id %}">Edit Article</a>
+                {% endif %}
+            </div>
+            <div>
+                Totel views: {{ article.total_views }}
             </div>
             <div class="col-12">
                 <p>{{article.body}}</p>

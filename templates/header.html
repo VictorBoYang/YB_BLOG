@@ -18,9 +18,6 @@
                     <a class="nav-item nav-link" href="{% url 'Users:edit' user.id%}">Info</a>
                 </li>
                 <li>
-                    <a class="nav-item nav-link" href="{% url 'Users:changePWD' user.id%}">ChangePWD</a>
-                </li>
-                <li>
                     <a class="nav-item nav-link" href="{% url 'Users:logout'%}">Logout</a>
                 </li>
                 {% else %}

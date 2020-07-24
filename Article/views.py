@@ -23,6 +23,11 @@ def article_list(request):
 
 def article_detail(request,id):
     article = models.ArticlePost.objects.get(id=id)
+
+    # total_views auto increase
+    article.total_views = article.total_views + 1
+    article.save(update_fields=['total_views'])
+
     context = {'article':article}
     return render(request,'article/detail.html',context)
 
@@ -46,12 +51,20 @@ def article_create(request):
 
 def article_delete(request,id):
     article = models.ArticlePost.objects.get(id=id)
+    # only the author of this article is allowed to delete this article
+    if request.user != article.author:
+        return HttpResponse('Sorry. You are not allowed to delete this article')
     article.delete()
     return redirect('Article:article_list')
 
 
 def article_edit(request,id):
     article = models.ArticlePost.objects.get(id=id)
+
+    # only the author of this article is allowed to edit this article
+    if request.user != article.author:
+        return HttpResponse('Sorry. You are not allowed to edit this article')
+
     if request.method == "POST":
         article_post_form = forms.article_post_form(data=request.POST)
         if article_post_form.is_valid():

@@ -49,29 +49,6 @@ def user_register(request):
     else:
         return HttpResponse('Please use GET or POST to request data')
 
-@login_required(login_url='/Users/login')
-def user_change_pwd(request,id):
-    user = User.objects.get(id=id)
-    if request.method == 'POST':
-        if request.user !=user:
-            return HttpResponse('You are not allowed to edit this user')
-        user_change_pwd_form = forms.user_change_pwd_form(data=request.POST)
-        if user_change_pwd_form.is_valid():
-            if user_change_pwd_form.cleaned_data['old_password'] == user.password:
-                user.set_password(user_change_pwd_form.cleaned_data['password'])
-                user.save()
-                return redirect('Article:article_list')
-            else:
-                HttpResponse('Please input the correct old password.')
-        else:
-            return HttpResponse('Password change form wrong. Please try again.')
-    elif request.method == 'GET':
-        user_change_pwd_form = forms.user_change_pwd_form()
-        context = {'form':user_change_pwd_form}
-        return  render(request,'user/changePWD.html',context)
-    else:
-        return HttpResponse('Please use GET or POST to request data')
-
 
 @login_required(login_url='/Users/login')
 def profile_edit(request,id):

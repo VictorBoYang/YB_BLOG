@@ -9,6 +9,7 @@ class ArticlePost(models.Model):
     body = models.TextField()
     create_time = models.DateTimeField(default=timezone.now)
     update_time = models.DateTimeField(auto_now=True)
+    total_views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
