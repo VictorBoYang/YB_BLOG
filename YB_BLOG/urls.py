@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/',admin.site.urls),
     path('article/',include('Article.urls',namespace='Article')),
     path('user/',include('Users.urls',namespace='Users')),
+    path('comment/',include('comment.urls',namespace='comment')),
 ]
 
 

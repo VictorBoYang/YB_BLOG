@@ -6,6 +6,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
+            <div class="col-9">
             <h1 class="col-12 mt-4 mb-4">{{article.title}}</h1>
             <div class="col-12 alert alert-success">
 
@@ -18,12 +19,69 @@
                 {% endif %}
             </div>
             <div>
-                Totel views: {{ article.total_views }}
+                <p style="color: #95999c">
+                    Totel views: {{ article.total_views }}
+                </p>
+
             </div>
             <div class="col-12">
                 <p>{{article.body}}</p>
             </div>
+                <!--Post comments-->
+            <hr>
+            {% if user.is_authenticated %}
+            <div>
+                <form action="{% url 'comment:post_comment' article.id%}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-control">
+                        <label for="body">
+                            <strong>
+                                I want say something:
+                            </strong>
+                        </label>
+                        <textarea
+                                type="text"
+                                class="form-control"
+                                id="body"
+                                name="body"
+                                rows="2"></textarea>
+                    </div>
+                    <!-- submit and post the comment-->
+                    <button type="submit" class="btn btn-primary">
+                        Post</button>
+                </form>
+            </div>
+            <br>
+            {% else %}
+            <br>
+            <h5 class="row justify-content-center">
+                Post your comment after <a href="{% url 'Users:login'%}">Sign in</a>
+            </h5>
+            <br>
+            {% endif %}
+
+            <!--Show all comments-->
+            <h5> There are {{comments.count }} comments</h5>
+            <div>
+                {% for comment in comments %}
+                <hr>
+                <p>
+                    <strong style="color: #218838">
+                        {{comment.user}}
+                    </strong> post at
+                    <span style="color: #95999c">
+                        {{ comment.created_time|date:'Y-m-d H:i:s'}}
+                    </span>:
+                </p>
+                <pre style="font-family: inherit; font-size: 1em">{{comment.body}}</pre>
+                {% endfor %}
+            </div>
+        <div class="col-3 mt-4">
+            ...
         </div>
+
+        </div>
+    </div>
     </div>
 
 <script>
