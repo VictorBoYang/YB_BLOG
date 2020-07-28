@@ -6,24 +6,43 @@ from . import forms
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from comment.models import Comment
+from django.db.models import Q
 
 
 def article_list(request):
-    if request.GET.get('order') == 'total_views':
-        article_list = models.ArticlePost.objects.all().order_by('-total_views')
-        order = 'total_views'
-    else:
-        article_list = models.ArticlePost.objects.all()
-        order = 'normal'
+    search = request.GET.get('search')
+    order = request.GET.get('order')
 
-    # every page will show 6 articles
-    paginator = Paginator(article_list, 2)
+    if search:
+        if order == 'total_views':
+            article_list = models.ArticlePost.objects.filter(
+                Q(title__icontains=search)|Q(body__icontains=search)
+            ).order_by('-total_views')
+        else:
+            article_list = models.ArticlePost.objects.filter(
+                Q(title__icontains=search) | Q(body__icontains=search)
+            )
+    else:
+        search = ''
+        if order == 'total_views':
+            article_list = models.ArticlePost.objects.all().order_by('-total_views')
+        else:
+            article_list = models.ArticlePost.objects.all()
+    # if request.GET.get('order') == 'total_views':
+    #     article_list = models.ArticlePost.objects.all().order_by('-total_views')
+    #     order = 'total_views'
+    # else:
+    #     article_list = models.ArticlePost.objects.all()
+    #     order = 'normal'
+
+    # every page will show 3 articles
+    paginator = Paginator(article_list, 3)
 
     page = request.GET.get('page')
 
     articles = paginator.get_page(page)
 
-    context = {'articles': articles, 'order': order}
+    context = {'articles': articles, 'order': order,'search': search}
     return render(request, 'article/list.html', context)
 
 

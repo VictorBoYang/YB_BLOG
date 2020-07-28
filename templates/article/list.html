@@ -6,17 +6,44 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'Article:article_list' %}">
+                <a href="{% url 'Article:article_list' %}?search={{ search }}">
                     Latest
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'Article:article_list'%}?order=total_views">
+                <a href="{% url 'Article:article_list'%}?order=total_views&search={{ search }}">
                     Top view
                 </a>
             </li>
         </ol>
     </nav>
+
+    <div class="row">
+        <div class="col-auto mr-auto">
+            <form class="form-inline">
+                <label class="sr-only">
+                    content
+                </label>
+                <input type="text"
+                class="form-control mb-2 mr-sm-2"
+                name="search"
+                placeholder="searching article..." required>
+            </form>
+        </div>
+    </div>
+
+    {% if search %}
+        {% if articles %}
+            <h4>
+                <span style="color: red">{{search}}</span> results are following:
+            </h4>
+            <hr>
+        {% else %}
+            <h4>Can't find any related articles about<span style="color: red">{{search}}</span></h4>
+            <hr>
+        {% endif %}
+    {% endif %}
+
     <div class="row mt-2">
         {% for article in articles %}
         <div class="col-4 mb-4">
@@ -46,11 +73,11 @@
     <div class="m-auto">
         <span class="step-links">
             {% if articles.has_previous %}
-                <a href="?page=1&order={{order}}" class="btn btn-success">
+                <a href="?page=1&order={{order}}&search={{ search }}" class="btn btn-success">
                     &laquo; 1
                 </a>
                 <span>...</span>
-                <a href="?page={{ articles.previous_page_number }}&order={{order}}"
+                <a href="?page={{ articles.previous_page_number }}&order={{order}}&search={{ search }}"
                    class="btn btn-secondary">
                     {{ articles.previous_page_number }}
                 </a>
@@ -61,12 +88,13 @@
             </span>
 
             {% if articles.has_next %}
-                <a href="?page={{ articles.next_page_number }}&order={{order}}"
+                <a href="?page={{ articles.next_page_number }}&order={{order}}&search={{ search }}"
                    class="btn btn-secondary">
                 {{ articles.next_page_number}}
                 </a>
                 <span>...</span>
-                <a href="?page={{ articles.paginator.num_pages }}&order={{order}}">
+                <a href="?page={{ articles.paginator.num_pages }}&order={{order}}&search={{ search }}"
+                    class="btn btn-success">
                     {{ articles.paginator.num_pages }} &raquo;
                 </a>
             {% endif %}
